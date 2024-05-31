@@ -19,7 +19,14 @@ from myapp.views import *
 urlpatterns = [
     path('request_here/',request_here),
     path('get_student/<int:id>/', get_student),  
-    path('get_student_here/<int:id>',StudentApiView.as_view()) , 
+    path('get_student_here/<int:id>',StudentApiView.as_view()) ,
+    path('student_api_create',StudentCreate.as_view()),
+    path('student_api_get/<int:pk>',StudentRetrive.as_view()),
+    path('student_api_update/<int:pk>',StudentUpdate.as_view()),
+    path('student_api_delete/<int:pk>',StudentDelete.as_view()),
+    path('student_api_listcreate',StudentListCreate.as_view()),
+    path('student_api_updatedistroy/<int:Z>',StudentRetrieveUpdateDistroy.as_view())
+
 
   
 ]

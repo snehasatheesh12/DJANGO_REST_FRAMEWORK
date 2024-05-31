@@ -11,8 +11,73 @@ from .serailizers import StudentSerializer
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 
+#generic apiview
+
+class StudentListCreate(GenericAPIView,ListModelMixin,CreateModelMixin):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+    
+    def get(self,request,*args,**kwargs):
+        return self.list(request,*args,**kwargs)
+    
+    def post(self,request,*args,**kwargs):
+        return self.create(request,*args,**kwargs)
 
 
+class StudentRetrieveUpdateDistroy(GenericAPIView,RetrieveModelMixin,UpdateModelMixin,DestroyModelMixin):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+    
+    def get(self,request,*args,**kwargs):
+      return self.retrieve(request,*args,**kwargs)
+     
+    def put(self,request,*args,**kwargs):
+        return self.update(request,*args,**kwargs)
+    
+    def delete(self,request,*args,**kwargs):
+        return self.destroy(request,*args,**kwargs)
+
+
+
+class StudentList(GenericAPIView,ListModelMixin):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+    
+    def get(self,request,*args,**kwargs):
+        return self.list(request,*args,**kwargs)
+
+class StudentCreate(GenericAPIView,CreateModelMixin):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+    
+    def post(self,request,*args,**kwargs):
+        return self.create(request,*args,**kwargs)
+
+class StudentRetrive(GenericAPIView,RetrieveModelMixin):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+    
+    def get(self,request,*args,**kwargs):
+        return self.retrieve(request,*args,**kwargs)
+
+
+
+class StudentUpdate(GenericAPIView,UpdateModelMixin):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+    
+    def put(self,request,*args,**kwargs):
+        return self.update(request,*args,**kwargs)
+
+
+
+class StudentDelete(GenericAPIView,DestroyModelMixin):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+    
+    def delete(self,request,*args,**kwargs):
+        return self.destroy(request,*args,**kwargs)
+    
 
 #class based api view
 class StudentApiView(APIView):
