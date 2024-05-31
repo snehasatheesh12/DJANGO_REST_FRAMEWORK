@@ -19,6 +19,8 @@ from myapp.views import *
 urlpatterns = [
     path('request_here/',request_here),
     path('get_student/<int:id>/', get_student),  
+    path('get_student_here/<int:id>',StudentApiView.as_view()) , 
+
   
 ]
 

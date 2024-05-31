@@ -11,11 +11,47 @@ from .serailizers import StudentSerializer
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 
-#list and create
 
 
 
+#class based api view
+class StudentApiView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg': 'data is created'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def put(self,request,id=None,*args,**kwargs):
+        if id is None:
+            return Response({'msg':'Id is required'},status=status.HTTP_400_BAD_REQUEST)
+        stu=student.objects.get(id=id)
+        seriailzer=StudentSerializer(stu,data=request.data)
+        if seriailzer.is_valid():
+            seriailzer.save()
+            return Response({'msg':'data is updated'},status=status.HTTP_201_CREATED)
+        return Response({'msg':'not updated'},status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request, id=None, *args, **kwargs):
+        try:
+            if id is not None:
+                stu = student.objects.get(id=id)
+                serializer = StudentSerializer(stu)
+                return Response(serializer.data, status=status.HTTP_302_FOUND)
+        except ObjectDoesNotExist:
+            return Response({'msg': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+    def delete(self,request, id=None, *args, **kwargs):
+      try:
+          if id is not None:
+            stu=student.objects.get(id=id)
+            stu.delete()
+            return Response({'msg':'data is deleted'},status=status.HTTP_204_NO_CONTENT)
+      except ObjectDoesNotExist:
+            return Response({'msg': 'Student not found'}, status=status.HTTP_404_NOT_FOUND)
+
+#function based api view
 @api_view(['POST','GET'])
 def request_here(request):
    if request.method == 'POST':
