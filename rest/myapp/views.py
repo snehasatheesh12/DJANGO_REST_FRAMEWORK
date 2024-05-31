@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics,permissions
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView,ListAPIView,CreateAPIView,RetrieveAPIView,DestroyAPIView,UpdateAPIView,ListCreateAPIView,RetrieveUpdateAPIView,RetrieveDestroyAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.mixins import ListModelMixin,CreateModelMixin,RetrieveModelMixin,UpdateModelMixin,DestroyModelMixin
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
@@ -10,9 +10,61 @@ from rest_framework.response import Response
 from .serailizers import StudentSerializer
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+
+
+
+#concrete view class
+class StudentListApiView(ListAPIView):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+    
+class StudentCreateApiView(CreateAPIView):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+
+class StudentRetrieveApiView(RetrieveAPIView):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class StudentUpdateApiView(UpdateAPIView):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+
+
+@method_decorator(csrf_exempt, name='dispatch')    
+class StudentDistroyApiView(DestroyAPIView):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+
+
+class StudentListCreateApiView(ListCreateAPIView):
+    queryset=student.objects.all()
+    serializer_class=StudentSerializer
+
+@method_decorator(csrf_exempt, name='dispatch')    
+class StudentRetrieveUpdateApiView(RetrieveUpdateAPIView):
+    queryset = student.objects.all()
+    serializer_class = StudentSerializer
+    
+@method_decorator(csrf_exempt, name='dispatch')    
+class StudentRetrieveDistroyApiView(RetrieveDestroyAPIView):
+    queryset = student.objects.all()
+    serializer_class = StudentSerializer
+    
+@method_decorator(csrf_exempt, name='dispatch')    
+class StudentRetrieveUpdateDistroyApiView(RetrieveUpdateDestroyAPIView):
+    queryset = student.objects.all()
+    serializer_class = StudentSerializer
+    
+
+
 
 #generic apiview
-
 class StudentListCreate(GenericAPIView,ListModelMixin,CreateModelMixin):
     queryset=student.objects.all()
     serializer_class=StudentSerializer
