@@ -1,6 +1,4 @@
 # DJANGO_REST_FRAMEWORK
-# travel_app1
-# Travel App Backend
 
 ## Setup
 
